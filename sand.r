@@ -52,7 +52,8 @@ g <- set_vertex_attr(g,name="type", value=type)
 keepbooks <- V(g)[(degree(g, mode="in")>19)]
 keepusers <- V(g)[(degree(g, mode="out")>4)]
 g2 <- induced_subgraph(g,c(keepusers,keepbooks))
-summary(V(g2)$book)
+summary(V(g2)$type)
+summary(g2)
 # Le reseau reduit aux livres notes plus de 20 fois et aux utilisateurs
 # ayant donne plus de 5 notes contient 11663 utilisateurs et 1873 livres.
 
@@ -64,6 +65,7 @@ keepusers3 <- V(g3)[(degree(g3, mode="out")>4)]
 g4 <- induced_subgraph(g3,c(keepusers3,keepbooks3))
 type4 <- (degree(g4, mode="in")>0)
 summary(type4)
+summary(g4)
 # On a maintenant 
 # 6 508 livres, 
 # 18 529 utilisateurs et 
