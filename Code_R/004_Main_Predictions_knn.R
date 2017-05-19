@@ -29,7 +29,7 @@ load(file = file_list.Datasets)
 # =================== 3.CHARGEMENT DES FONCTIONS ANNEXES  ================================
 
 source("./Code_R/Util/K_nearest_neighbors.R")
-source("./Code_R/Util/knn_user_predictions.R", encoding = 'UTF-8')
+source("./Code_R/Util/knn_user_predictions.R")
 source("./Code_R/Util/knn_user_predicteur.R")
 source("./Code_R/Util/get_limited_value.R")
 
@@ -37,15 +37,20 @@ library("hydroGOF")
 library("zoo", lib.loc="~/R/win-library/3.3")
 
 # ============================== 4.CHOIX DE PARAMETRES =========================================
+# 
+# Kmin = 1
+# Kmax = 100
+# Kpas = 10
+# seq=c(1:)
+# seq_K = seq(Kmin, Kmax, by = Kpas)
 
-Kmin = 25
-Kmax = 50
-Kpas = 1
-seq_K = seq(Kmin, Kmax, by = Kpas)
+seq_K = 2^(1:6)
+Kmin = min(seq_K)
+Kmax = max(seq_K)
 nb.K = length(seq_K)
 
 similarity_names = c("RFP") 
-list.nbMin.InCommon = c(1)
+list.nbMin.InCommon = c(0)
 method_names = c("weighted-centered&a")
 
 # Calcul du nombre de prédicteurs
@@ -96,12 +101,12 @@ for(train in 1:nb.Datasets){ # pour chaque couple train/test de la validation cr
     nbMin.InCommon = mat.models$nbMin.InCommon[modelIND]
     predicteur = mat.models$predicteur[modelIND]
     
-    file_mat.sim = paste0("./CrossValidation/CV", nb.Datasets, "/train", train, "/mat.sim_", similarity, "_", nbMin.InCommon, ".csv")
+    file_mat.sim = paste0("./Code_R/CrossValidation/CV", nb.Datasets, "/train", train, "/mat.sim_", similarity, "_", nbMin.InCommon, ".csv")
     mat.sim = as.matrix(read.table(file = file_mat.sim, header=T, sep=';'))
     
     pred = knn_user_predictions(list.Datasets, train, seq_K, mat.sim, predicteur, list.dejaVu, stat.Users, stat.Books)
     colnames(pred) = c("User.ID", "ISBN", "Book.Rating", seq_K)
-    write.table(pred, paste0("./Results/", repository, "/results_predictions_train", train, "_", similarity, nbMin.InCommon, "_", predicteur, ".csv"), col.names=NA, sep=";")
+    write.table(pred, paste0("./Code_R/Results/", repository, "/results_predictions_train", train, "_", similarity, nbMin.InCommon, "_", predicteur, ".csv"), col.names=NA, sep=";")
     
     for(kIND in 1:nb.K){
       k = seq_K[kIND]
