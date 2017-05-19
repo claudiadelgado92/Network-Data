@@ -12,8 +12,9 @@ nb_BooksInCommon = function(data.Ratings){
   
   # Projection (pondérée) et récupération de la matrice d'adjacence
   usersgraph <- bipartite_projection(g, multiplicity = T, which = F)
-  mat.InCommon <- get.adjacency(usersgraph, type="both", attr="weight", names=TRUE)
-
+  mat <- get.adjacency(usersgraph, type="both", attr="weight", names=TRUE)
+  nb.Users=length(V(usersgraph)$name)
+  mat.InCommon = matrix(mat, nrow = nb.Users, ncol = nb.Users) 
   
-  return(matrix(mat.InCommon))
+  return(mat.InCommon)
 }
