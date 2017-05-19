@@ -19,7 +19,7 @@ source("./Code_R/Util/stat_Users.R")
 source("./Code_R/Util/stat_Books.R")
 source("./Code_R/Util/deja_Vu.R")
 
-source("./Code_R/Util/nb_BooksInCommon.R")
+source("./Code_R/Util/nb_BooksInCommon_v2.R")
 source("./Code_R/Util/proxi_Users.R")
 source("./Code_R/Util/proxi_Users_AllvsAll.R")
 source("./Code_R/Util/filtrer_similarite.R")
@@ -66,18 +66,18 @@ for(train in 1:nb.Tests){
     mat.InCommon = nb_BooksInCommon(train.Ratings)
     write.table(mat.InCommon, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/train", train, "/mat.InCommon.csv"), row.names = FALSE, sep=";")
   
-    cat(" \n \t Création des matrices des similarités \n")
-    for(similarity in list.Similarities){
-      cat(sprintf("\n \t \t Création de la matrice %s sans filtre\n", similarity))
-      mat.sim0 = proxi_Users_AllvsAll(train.Ratings, similarity)
-      write.table(mat.sim0, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/train", train, "/mat.sim_", similarity, "_0.csv"), row.names = FALSE, sep=";")
-  
-      for(nbMin.InCommon in list.nbMin.InCommon){
-        cat(sprintf("\n \t \t Création de la matrice %s avec un seuil à %0.f \n", similarity, nbMin.InCommon))
-        mat.sim_filtre = filtrer_similarite(mat.sim0, mat.InCommon, nbMin.InCommon)
-        write.table(mat.sim_filtre, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/train", train, "/mat.sim_", similarity, "_", nbMin.InCommon, ".csv"), row.names = FALSE, sep=";")
-      } 
-    }
+    # cat(" \n \t Création des matrices des similarités \n")
+    # for(similarity in list.Similarities){
+    #   cat(sprintf("\n \t \t Création de la matrice %s sans filtre\n", similarity))
+    #   mat.sim0 = proxi_Users_AllvsAll(train.Ratings, similarity)
+    #   write.table(mat.sim0, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/train", train, "/mat.sim_", similarity, "_0.csv"), row.names = FALSE, sep=";")
+    # 
+    #   for(nbMin.InCommon in list.nbMin.InCommon){
+    #     cat(sprintf("\n \t \t Création de la matrice %s avec un seuil à %0.f \n", similarity, nbMin.InCommon))
+    #     mat.sim_filtre = filtrer_similarite(mat.sim0, mat.InCommon, nbMin.InCommon)
+    #     write.table(mat.sim_filtre, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/train", train, "/mat.sim_", similarity, "_", nbMin.InCommon, ".csv"), row.names = FALSE, sep=";")
+    #    } 
+    # }
   
    
 }
@@ -107,17 +107,17 @@ cat("\t Création de la matrice du nombre de livres notés en commun \n")
 mat.InCommon = nb_BooksInCommon(train.Ratings)
 write.table(mat.InCommon, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/Test/mat.InCommon.csv"), row.names = FALSE, sep=";")
 
-cat("\n \t Création des matrices des similarités \n")
-for(similarity in list.Similarities){
-  cat(sprintf("\n \t \t Création de la matrice %s sans filtre\n", similarity))
-  mat.sim0 = proxi_Users_AllvsAll(train.Ratings, similarity)
-  write.table(mat.sim0, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/Test/mat.sim_", similarity, "_0.csv"), row.names = FALSE, sep=";")
-  for(nbMin.InCommon in list.nbMin.InCommon){
-    cat("\n \t nbMin.InCommon =", nbMin.InCommon," \n")
-    cat(sprintf("\n \t \t Création de la matrice %s avec un seuil à %0.f \n", similarity, nbMin.InCommon))
-    mat.sim_filtre = filtrer_similarite(mat.sim0, mat.InCommon, nbMin.InCommon)
-    write.table(mat.sim_filtre, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/Test/mat.sim_", similarity, "_", nbMin.InCommon, ".csv"), row.names = FALSE, sep=";")
-  } 
-}
+# cat("\n \t Création des matrices des similarités \n")
+# for(similarity in list.Similarities){
+#   cat(sprintf("\n \t \t Création de la matrice %s sans filtre\n", similarity))
+#   mat.sim0 = proxi_Users_AllvsAll(train.Ratings, similarity)
+#   write.table(mat.sim0, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/Test/mat.sim_", similarity, "_0.csv"), row.names = FALSE, sep=";")
+#   for(nbMin.InCommon in list.nbMin.InCommon){
+#     cat("\n \t nbMin.InCommon =", nbMin.InCommon," \n")
+#     cat(sprintf("\n \t \t Création de la matrice %s avec un seuil à %0.f \n", similarity, nbMin.InCommon))
+#     mat.sim_filtre = filtrer_similarite(mat.sim0, mat.InCommon, nbMin.InCommon)
+#     write.table(mat.sim_filtre, paste0("./Code_R/CrossValidation/CV", nb.Tests, "/Test/mat.sim_", similarity, "_", nbMin.InCommon, ".csv"), row.names = FALSE, sep=";")
+#   } 
+# }
 
 

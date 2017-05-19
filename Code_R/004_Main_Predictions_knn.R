@@ -45,7 +45,7 @@ seq_K = seq(Kmin, Kmax, by = Kpas)
 nb.K = length(seq_K)
 
 similarity_names = c("RFP") 
-list.nbMin.InCommon = c(0)
+list.nbMin.InCommon = c(1)
 method_names = c("weighted-centered&a")
 
 # Calcul du nombre de prédicteurs
@@ -70,7 +70,7 @@ result_error = as.data.frame(matrix(0, nrow=nb.Models.byK, ncol = nb.K))
 rownames(result_error) = mat.models$name
 colnames(result_error) = seq_K
 
-# =================== 6.CALCUL DES TABLEAUX DE PREDICTION ================================
+# =================== 6.CALCUL DES TABLEAUX DE PREDICTION POUR LA CROSS VALIDATION ================================
 
 for(train in 1:nb.Datasets){ # pour chaque couple train/test de la validation croisée
   
@@ -156,4 +156,4 @@ for(modelIND in 1:nb.Models.byK){
   }
 }
 
-write.table(result_error, paste0("./Results/", repository, "/results_knn_userPredictionTest_Test.csv"), col.names=NA, row.names = mat.models$name, sep=";")
+write.table(result_error, paste0("./Code_R/Results/results_knn_userPredictionTest_Test.csv"), col.names=NA, row.names = mat.models$name, sep=";")
