@@ -29,10 +29,13 @@ K_nearest_neighbors = function(User.ID, ISBN, K, list.dejaVu, vect.Users, mat.si
   
   userIND2 = 1 #indice dans vect.Neighbors
   nb.Neighbors = 0 #indice dans mat.neighbors
+  h=0
   
   while((nb.Neighbors < K) & (userIND2 <= nb.OtherUsers)){
+    print(h)
+    h=h+1
     User.ID2 = vect.Neighbors[userIND2]
-    if(ISBN %in% list.dejaVu[[User.ID2]]){
+    if(ISBN %in% list.dejaVu[[userIND2]]){
       nb.Neighbors = nb.Neighbors+1
       mat.neighbors$neighbors[nb.Neighbors] = User.ID2
       mat.neighbors$similarities[nb.Neighbors] = vect.Similarity[userIND2]

@@ -40,11 +40,11 @@ knn_user_predictions = function(list.Datasets, train, seq_K, mat.sim, predicteur
     vect.Similarity.byNN = knn$similarities
     vect.Ratings.byNN = as.vector(matrix(NA, nrow = 1, ncol = Kmax))
     
-    estPresent = (ISBN %in% stat.Books$ISBN & User.ID %in% stat.Users$User.ID)
+    estPresent = ((ISBN %in% stat.Books$ISBN) & (User.ID %in% stat.Users$User.ID))
     if(estPresent){
       for(k in 1:Kmax){ #Remplissage des notes des voisins
         if(!is.na(vect.Neighbors[k])){
-          vect.Ratings.byNN[k] = train.Ratings$rating[(train.Ratings$User.ID == vect.Neighbors[k]) & (train.Ratings$ISBN == ISBN)]
+          vect.Ratings.byNN[k] = train.Ratings$Book.Rating[(train.Ratings$User.ID == vect.Neighbors[k]) & (train.Ratings$ISBN == ISBN),]
         }
       }
     }
